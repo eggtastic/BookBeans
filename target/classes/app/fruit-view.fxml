@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="app.FruitController">
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+    </padding>
+    <children>
+        <Label text="Fruit Vendor">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tblFruits" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colName" text="Name" />
+                <TableColumn fx:id="colPrice" text="Price (pc)" />
+                <TableColumn fx:id="colStock" text="Stock" />
+            </columns>
+        </TableView>
+        <HBox spacing="8.0">
+            <children>
+                <TextField fx:id="txtName" promptText="Fruit name" />
+                <TextField fx:id="txtPrice" promptText="Price (pc)" />
+                <TextField fx:id="txtStock" promptText="Stock" />
+                <Button onAction="#handleAdd" text="Add Fruit" />
+            </children>
+        </HBox>
+        <HBox spacing="8.0">
+            <children>
+                <TextField fx:id="txtQty" promptText="Quantity to sell" />
+                <Button onAction="#handleSell" text="Sell Selected" />
+            </children>
+        </HBox>
+        <Label fx:id="lblEarnings" text="Earnings: PHP 0.00" />
+    </children>
+</VBox>
