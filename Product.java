@@ -2,14 +2,12 @@ abstract class Product {
         private String name;
         private double price;
         private int stock;
-        private String creator;
 
 
-        public Product(String name, double price, int stock, String creator) {
+        public Product(String name, double price, int stock) {
             this.name = name;
             this.price = price;
             this.stock = stock;
-            this.creator = creator;
         }
 
 
@@ -22,12 +20,10 @@ abstract class Product {
         public int getStock()    { 
             return stock; 
         }
-        public String getCreator()    { 
-            return creator; 
-        }
+        
 
-
-        abstract void whoCreator();
+        
+        abstract void displayProduct();
 
 
         @Override
@@ -40,24 +36,36 @@ abstract class Product {
 class Media extends Product {
     private String genre;
     private int release;
+    private String creator;
 
 
-    Media (String name, double price, int stock, String creator) {
-       super(name, price, stock, creator);
+    public String getName()  { 
+            return genre; 
     }
-    void whoCreator() {
-       // creator = author if book, director if movie
+    public int getRelease()  { 
+            return release; 
+    }
+    public String getCreator()    { 
+            return creator;  // media: author if book, director if movie
+    }
+
+
+    Media (String name, double price, int stock) {
+       super(name, price, stock);
+    }
+
+    void displayProduct() {
        System.out.println("Author:");
     }
 }
 
 class Consumables extends Product {
     // food and drink
-    Consumables (String name, double price, int stock, String creator) {
-       super(name, price, stock, creator);
+    Consumables (String name, double price, int stock) {
+       super(name, price, stock);
     }
 
-    void whoCreator() {
+    void displayProduct() {
        // creator = author if book, director if movie
        System.out.println("Author:");
     }
