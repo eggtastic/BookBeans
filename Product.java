@@ -72,12 +72,7 @@ class Book extends Media {
     }
 
     void displayProduct() {
-        System.out.println("Title: " + getName()
-                + " by " + author
-                + ", a " + getGenre()
-                + " released in " + getRelease()
-                + ". Price: " + getPrice()
-                + ", Stock: " + getStock());
+        System.out.println("Title: " + getName()+ " by " + author+ ", a " + getGenre()+ " released in " + getRelease()+ ". Price: " + getPrice()+ ", Stock: " + getStock());
     }
 }
 class Movie extends Media {
@@ -86,7 +81,6 @@ class Movie extends Media {
 
     Movie(String name, double price, int stock,
           String genre, int release, String director, int runtime) {
-
         super(name, price, stock, genre, release);
         this.director = director;
         this.runtime = runtime;
@@ -109,15 +103,16 @@ class Movie extends Media {
                 + ", Stock: " + getStock());
     }
 }
-
 class Consumables extends Product {
     // food and drink
-    Consumables (String name, double price, int stock) {
-       super(name, price, stock);
+    
+    Consumables(String name, double price, int stock) {
+        super(name, price, stock);
     }
 
     void displayProduct() {
-       // creator = author if book, director if movie
-       System.out.println("Author:");
+        System.out.println("Name: " + getName()
+                + ". Price: " + getPrice()
+                + ", Stock: " + getStock());
     }
 }
