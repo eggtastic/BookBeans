@@ -80,6 +80,35 @@ class Book extends Media {
                 + ", Stock: " + getStock());
     }
 }
+class Movie extends Media {
+    private String director;
+    private int runtime;
+
+    Movie(String name, double price, int stock,
+          String genre, int release, String director, int runtime) {
+
+        super(name, price, stock, genre, release);
+        this.director = director;
+        this.runtime = runtime;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    void displayProduct() {
+        System.out.println("Title: " + getName()
+                + " by " + director
+                + ", a " + getGenre()
+                + " released in " + getRelease()
+                + ". Price: " + getPrice()
+                + ", Stock: " + getStock());
+    }
+}
 
 class Consumables extends Product {
     // food and drink
