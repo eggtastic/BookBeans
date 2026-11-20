@@ -4,7 +4,7 @@ abstract class Product {
         private int stock;
 
 
-        public Product(String name, double price, int stock) {
+        Product(String name, double price, int stock) {
             this.name = name;
             this.price = price;
             this.stock = stock;
@@ -20,42 +20,64 @@ abstract class Product {
         public int getStock()    { 
             return stock; 
         }
-        
 
+        public void setPrice(double price) { this.price = price; }
         
         abstract void displayProduct();
-
 
         @Override
         public String toString() {
             return String.format("%-10s PHP %.2f  (%d pcs)", name, price, stock);
         }
 }
-
-
 class Media extends Product {
     private String genre;
     private int release;
-    private String creator;
 
-
-    public String getName()  { 
+    public String getGenre()  { 
             return genre; 
     }
     public int getRelease()  { 
             return release; 
     }
-    public String getCreator()    { 
-            return creator;  // media: author if book, director if movie
-    }
 
-
-    Media (String name, double price, int stock) {
+    Media (String name, double price, int stock, String genre, int release) {
        super(name, price, stock);
+       this.genre = genre;
+       this.release = release;
     }
 
     void displayProduct() {
-       System.out.println("Author:");
+        System.out.println(getName() + ", a " + genre + " released in " + release + ". Price: " + getPrice() + ", Stock: " + getStock());
+    }
+}
+class Book extends Media {
+    private String author;
+    private int pageCount;
+
+    Book(String name, double price, int stock,
+         String genre, int release, String author, int pageCount) {
+
+        super(name, price, stock, genre, release);
+        this.author = author;
+        this.pageCount = pageCount;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    void displayProduct() {
+        System.out.println("Title: " + getName()
+                + " by " + author
+                + ", a " + getGenre()
+                + " released in " + getRelease()
+                + ". Price: " + getPrice()
+                + ", Stock: " + getStock());
     }
 }
 
