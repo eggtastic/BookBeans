@@ -33,6 +33,7 @@ abstract class Product {
 class Media extends Product {
     private String genre;
     private int release;
+    private String creator;
 
     public String getGenre()  { 
             return genre; 
@@ -40,8 +41,11 @@ class Media extends Product {
     public int getRelease()  { 
             return release; 
     }
+    public String getCreator()  { 
+            return creator; 
+    }
 
-    Media (String name, double price, int stock, String genre, int release) {
+    Media (String name, double price, int stock, String genre, int release, String creator) {
        super(name, price, stock);
        this.genre = genre;
        this.release = release;
@@ -52,19 +56,13 @@ class Media extends Product {
     }
 }
 class Book extends Media {
-    private String author;
     private int pageCount;
 
     Book(String name, double price, int stock,
-         String genre, int release, String author, int pageCount) {
+         String genre, int release, int pageCount, String creator) {
 
-        super(name, price, stock, genre, release);
-        this.author = author;
+        super(name, price, stock, genre, release, creator); // creator here means author
         this.pageCount = pageCount;
-    }
-
-    public String getAuthor() {
-        return author;
     }
 
     public int getPageCount() {
@@ -72,22 +70,16 @@ class Book extends Media {
     }
 
     void displayProduct() {
-        System.out.println("Title: " + getName()+ " by " + author+ ", a " + getGenre()+ " released in " + getRelease()+ ". Price: " + getPrice()+ ", Stock: " + getStock());
+        System.out.println("Title: " + getName()+ " by " + getCreator()+ ", a " + getGenre()+ " released in " + getRelease()+ ". Price: " + getPrice()+ ", Stock: " + getStock());
     }
 }
 class Movie extends Media {
-    private String director;
     private int runtime;
 
     Movie(String name, double price, int stock,
-          String genre, int release, String director, int runtime) {
-        super(name, price, stock, genre, release);
-        this.director = director;
+          String genre, int release, int runtime, String creator) {
+        super(name, price, stock, genre, release, creator); // creator here means director
         this.runtime = runtime;
-    }
-
-    public String getDirector() {
-        return director;
     }
 
     public int getRuntime() {
@@ -95,12 +87,7 @@ class Movie extends Media {
     }
 
     void displayProduct() {
-        System.out.println("Title: " + getName()
-                + " by " + director
-                + ", a " + getGenre()
-                + " released in " + getRelease()
-                + ". Price: " + getPrice()
-                + ", Stock: " + getStock());
+        System.out.println("Title: " + getName()+ " by " + getCreator()+ ", a " + getGenre()+ " released in " + getRelease()+ ". Price: " + getPrice()+ ", Stock: " + getStock());
     }
 }
 class Consumables extends Product {
@@ -111,8 +98,6 @@ class Consumables extends Product {
     }
 
     void displayProduct() {
-        System.out.println("Name: " + getName()
-                + ". Price: " + getPrice()
-                + ", Stock: " + getStock());
+        System.out.println("Name: " + getName()+ ". Price: " + getPrice()+ ", Stock: " + getStock());
     }
 }
