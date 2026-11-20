@@ -1,5 +1,4 @@
-public class Product {
-    abstract class Product {
+abstract class Product {
         private String name;
         private double price;
         private int stock;
@@ -38,6 +37,4 @@ class Media extends Product {
        // creator = author if book, director if movie
        System.out.println("Name's Maine.");
    }
-}
-
 }
