@@ -1,3 +1,5 @@
+package product;
+
 abstract class Product {
         private String name;
         private double price;
@@ -55,7 +57,7 @@ class Media extends Product {
         System.out.println(getName() + ", a " + genre + " released in " + release + ". Price: " + getPrice() + ", Stock: " + getStock());
     }
 }
-class Book extends Media {
+public class Book extends Media {
     private int pageCount;
 
     Book(String name, double price, int stock,
@@ -73,7 +75,7 @@ class Book extends Media {
         System.out.println("Title: " + getName()+ " by " + getCreator()+ ", a " + getGenre()+ " released in " + getRelease()+ ". Price: " + getPrice()+ ", Stock: " + getStock());
     }
 }
-class Movie extends Media {
+public class Movie extends Media {
     private int runtime;
 
     Movie(String name, double price, int stock,
@@ -90,7 +92,7 @@ class Movie extends Media {
         System.out.println("Title: " + getName()+ " by " + getCreator()+ ", a " + getGenre()+ " released in " + getRelease()+ ". Price: " + getPrice()+ ", Stock: " + getStock());
     }
 }
-class Consumables extends Product {
+public class Consumables extends Product {
     // food and drink
     
     Consumables(String name, double price, int stock) {

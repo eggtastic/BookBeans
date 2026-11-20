@@ -1,5 +1,8 @@
 package storefront;
 import java.util.ArrayList;
+import product.Book;
+import product.Movie;
+import product.Consumables;
 
 abstract class Storefront {
     private String name;
@@ -36,10 +39,10 @@ class Bookstore extends Storefront {
     private ArrayList<Book> Books = new ArrayList<>();
     private ArrayList<Movie> Movies = new ArrayList<>();
 
-    public String getBookStock() {
+    public int getBookStock() {
         return BookStock;
     }
-    public String getMovieStock() {
+    public int getMovieStock() {
         return MovieStock;
     }
 
@@ -47,6 +50,16 @@ class Bookstore extends Storefront {
         super(name, earnings, customers);
         this.BookStock = BookStock;
         this.MovieStock = MovieStock;
+    };
+
+    @Override
+    public void displayStorefront() {
+        System.out.print(Books);
+        System.out.print(Movies);
+    }
+    @Override
+    public void BuyProduct() {
+        System.out.print("E");
     }
 }
 
@@ -61,4 +74,13 @@ class Cafe extends Storefront {
     Cafe(String name, double earnings, int customers, int MenuItems) {
         super(name, earnings, customers);
         this.MenuItems = MenuItems;
+    }
+    @Override
+    public void displayStorefront() {
+        System.out.print(Menu);
+    }
+    @Override
+    public void BuyProduct() {
+        System.out.print("E");
+    }
 }
