@@ -13,10 +13,18 @@ abstract class Product {
         }
 
 
-        public String getName()  { return name; }
-        public double getPrice() { return price; }
-        public int getStock()    { return stock; }
-        public String getCreator()    { return creator; }
+        public String getName()  { 
+            return name; 
+        }
+        public double getPrice() { 
+            return price; 
+        }
+        public int getStock()    { 
+            return stock; 
+        }
+        public String getCreator()    { 
+            return creator; 
+        }
 
 
         abstract void whoCreator();
@@ -30,11 +38,27 @@ abstract class Product {
 
 
 class Media extends Product {
-   Media (String name, double price, int stock, String creator) {
+    private String genre;
+    private int release;
+
+
+    Media (String name, double price, int stock, String creator) {
        super(name, price, stock, creator);
-   }
-   void whoCreator() {
+    }
+    void whoCreator() {
        // creator = author if book, director if movie
-       System.out.println("Name's Maine.");
-   }
+       System.out.println("Author:");
+    }
+}
+
+class Consumables extends Product {
+    // food and drink
+    Consumables (String name, double price, int stock, String creator) {
+       super(name, price, stock, creator);
+    }
+
+    void whoCreator() {
+       // creator = author if book, director if movie
+       System.out.println("Author:");
+    }
 }
