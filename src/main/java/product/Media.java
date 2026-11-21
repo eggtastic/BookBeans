@@ -1,6 +1,6 @@
 package src.main.java.product;
 
-public class Media extends Product {
+abstract class Media extends Product {
     private String genre;
     private int release;
     private String creator;
@@ -19,9 +19,5 @@ public class Media extends Product {
        super(name, price, stock);
        this.genre = genre;
        this.release = release;
-    }
-
-    void displayProduct() {
-        System.out.println(getName() + ", a " + genre + " released in " + release + ". Price: " + getPrice() + ", Stock: " + getStock());
     }
 }
