@@ -1,4 +1,4 @@
-package src.main.java.product;
+package product;
 
 abstract class Media extends Product {
     private String genre;

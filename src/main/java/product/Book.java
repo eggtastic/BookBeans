@@ -1,4 +1,4 @@
-package src.main.java.product;
+package product;
 
 public class Book extends Media {
     private int pageCount;

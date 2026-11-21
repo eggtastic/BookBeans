@@ -1,8 +1,8 @@
-package src.main.java.storefront;
+package storefront;
 import java.util.ArrayList;
-import src.main.java.product.Book;
-import src.main.java.product.Movie;
-import src.main.java.product.Consumables;
+import product.Book;
+import product.Movie;
+import product.Consumables;
 
 abstract class Storefront {
     private String name;
@@ -59,9 +59,9 @@ class Bookstore extends Storefront {
     }
     @Override
     public void BuyProduct() {
-        int copies
-        System.out.print("Thank you for your purchase. You have purchased ",copies," copy/copies of", name);
-        stock-=1;
+        int copies;
+        System.out.print("Thank you for your purchase. You have purchased ",copies," copy/copies of", getName()); // fix
+        stock-=1; // movie stock
     }
 }
 

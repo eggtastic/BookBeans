@@ -1,4 +1,4 @@
-package src.main.java.product;
+package product;
 
 public class Consumables extends Product {
     // food and drink
@@ -11,3 +11,4 @@ public class Consumables extends Product {
         System.out.println("Name: " + getName()+ ". Price: " + getPrice()+ ", Stock: " + getStock());
     }
 }
+ 
