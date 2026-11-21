@@ -1,4 +1,4 @@
-package src.main.java.product;
+package product;
 
 public class Movie extends Media {
     private int runtime;
