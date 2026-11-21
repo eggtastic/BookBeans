@@ -59,7 +59,7 @@ class Bookstore extends Storefront {
     }
     @Override
     public void BuyProduct() {
-        int copies;
+        int copies = 0;
         System.out.print("Thank you for your purchase. You have purchased " + copies + " copy/copies of " + getName());
         MovieStock -= 1;
     }
@@ -67,7 +67,7 @@ class Bookstore extends Storefront {
 
 class Cafe extends Storefront {
     private int MenuItems;
-    private ArrayList Menu = new ArrayList();
+    private ArrayList<Consumables> Menu = new ArrayList<>();
 
     public int getMenuItems() {
         return MenuItems;
@@ -83,7 +83,7 @@ class Cafe extends Storefront {
     }
     @Override
     public void BuyProduct() {
-        int copies;
+        int copies = 0;
         System.out.print("Thank you for your purchase. You have purchased " + copies + " serving(s) of " + getName());
         MenuItems -= 1;
     }
