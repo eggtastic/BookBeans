@@ -59,7 +59,9 @@ class Bookstore extends Storefront {
     }
     @Override
     public void BuyProduct() {
-        System.out.print("E");
+        int copies
+        System.out.print("Thank you for your purchase. You have purchased ",copies," copy/copies of", name);
+        stock-=1;
     }
 }
 
@@ -81,6 +83,8 @@ class Cafe extends Storefront {
     }
     @Override
     public void BuyProduct() {
-        System.out.print("E");
+        int copies
+        System.out.print("Thank you for your purchase. You have purchased ",copies," serving(s) of", name);
+        stock-=1;
     }
 }
