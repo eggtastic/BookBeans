@@ -21,7 +21,7 @@ public class Media extends Product {
        this.release = release;
     }
 
-    void displayProduct() {
+    public void displayProduct() {
         System.out.println(getName() + ", a " + genre + " released in " + release + ". Price: " + getPrice() + ", Stock: " + getStock());
     }
 }
