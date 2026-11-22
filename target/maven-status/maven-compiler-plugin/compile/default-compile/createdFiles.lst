@@ -1,0 +1,10 @@
+product\Media.class
+product\Book.class
+storefront\Cafe.class
+product\Product.class
+product\Movie.class
+storefront\Bookstore.class
+app\Controller.class
+app\Main.class
+storefront\Storefront.class
+product\Consumables.class
