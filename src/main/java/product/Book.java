@@ -13,6 +13,9 @@ public class Book extends Media {
     public int getPageCount() {
         return pageCount;
     }
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
 
     public void displayProduct() {
         System.out.println("Title: " + getName()+ " by " + getCreator()+ ", a " + getGenre()+ " released in " + getRelease()+ ". Price: " + getPrice()+ ", Stock: " + getStock());

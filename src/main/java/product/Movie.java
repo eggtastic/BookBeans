@@ -12,6 +12,9 @@ public class Movie extends Media {
     public int getRuntime() {
         return runtime;
     }
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
 
     public void displayProduct() {
         System.out.println("Title: " + getName()+ " by " + getCreator()+ ", a " + getGenre()+ " released in " + getRelease()+ ". Price: " + getPrice()+ ", Stock: " + getStock());

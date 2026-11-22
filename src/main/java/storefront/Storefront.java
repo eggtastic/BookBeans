@@ -3,8 +3,8 @@ package storefront;
 import java.util.ArrayList;
 
 import product.Book;
-import product.Movie;
 import product.Consumables;
+import product.Movie;
 import product.Product;
 
 
@@ -91,10 +91,40 @@ class Bookstore extends Storefront {
                         String genre, int release, int pageCount,
                         String creator) {
 
-        book.setStock(stock);
+        book.setName(name);
         book.setPrice(price);
+        book.setStock(stock);
+        book.setGenre(genre);
+        book.setRelease(release);
+        book.setCreator(creator);
+        book.setPageCount(pageCount);
+    }
+    public void updateMovie(Movie movie, String name, double price, int stock,
+                          String genre, int release, int runtime,
+                          String creator) {
+
+        movie.setName(name);
+        movie.setPrice(price);
+        movie.setStock(stock);
+        movie.setGenre(genre);
+        movie.setRelease(release);
+        movie.setCreator(creator);
+        movie.setRuntime(runtime);
     }
 
+    // DELETE
+        
+    public void deleteBook(Book book) {
+        if (Books.remove(book)) {
+            BookStock--;
+        }
+    }
+
+    public void deleteMovie(Movie movie) {
+        if (Movies.remove(movie)) {
+            MovieStock--;
+        }
+    }
 
     // READ
 
@@ -178,6 +208,23 @@ class Cafe extends Storefront {
     public void addConsumable(Consumables consumable) {
         Menu.add(consumable);
         MenuItems++;
+    }
+
+    // UPDATE
+
+    public void updateConsumable(Consumables consumable,
+                                String name, double price, int stock) {
+
+        consumable.setName(name);
+        consumable.setPrice(price);
+        consumable.setStock(stock);
+    }
+    // DELETE
+
+    public void deleteConsumable(Consumables consumable) {
+        if (Menu.remove(consumable)) {
+            MenuItems--;
+        }
     }
 
 
