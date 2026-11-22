@@ -24,6 +24,12 @@ public abstract class Product {
         }
 
         public void setPrice(double price) { this.price = price; }
+
+        public void reduceStock() { 
+            if (stock > 0) {
+                stock -= 1;
+            }
+        }
         
         abstract void displayProduct();
 
