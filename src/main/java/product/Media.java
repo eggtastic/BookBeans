@@ -14,6 +14,17 @@ public class Media extends Product {
     public String getCreator()  { 
             return creator; 
     }
+    public void setGenre(String genre) {
+        this.genre = genre;
+}
+
+        public void setRelease(int release) {
+        this.release = release;
+}
+
+        public void setCreator(String creator) {
+        this.creator = creator;
+}
 
     public Media (String name, double price, int stock, String genre, int release, String creator) {
        super(name, price, stock);

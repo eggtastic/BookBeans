@@ -85,6 +85,15 @@ class Bookstore extends Storefront {
         Movies.add(movie);
         MovieStock++;
     }
+    // UPDATE
+
+    public void updateBook(Book book, String name, double price, int stock,
+                        String genre, int release, int pageCount,
+                        String creator) {
+
+        book.setStock(stock);
+        book.setPrice(price);
+    }
 
 
     // READ
@@ -119,18 +128,13 @@ class Bookstore extends Storefront {
         if (product instanceof Book || product instanceof Movie) {
 
             if (product.getStock() > 0) {
-
                 product.reduceStock();
-
                 setEarnings(getEarnings() + product.getPrice());
-
                 System.out.println(
                     "Thank you for your purchase of " +
                     product.getName()
                 );
-
             } else {
-
                 System.out.println(
                     "Sorry, " + product.getName() +
                     " is out of stock."
