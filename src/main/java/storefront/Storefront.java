@@ -52,11 +52,33 @@ class Bookstore extends Storefront {
         this.MovieStock = MovieStock;
     };
 
+    public void addBook(Book book) {
+        Books.add(book);
+    }
+
+    public void addMovie(Movie movie) {
+        Movies.add(movie);
+    }
+
     @Override
     public void displayStorefront() {
-        System.out.print(Books);
-        System.out.print(Movies);
+        for (Book book : Books) {
+            book.displayProduct();
+        }
+
+        for (Movie movie : Movies) {
+            movie.displayProduct();
+        }
     }
+
+    public ArrayList<Book> getBooks() {
+        return Books;
+    }
+
+    public ArrayList<Movie> getMovies() {
+        return Movies;
+    }
+
     @Override
     public void BuyProduct() {
         int copies = 0;
@@ -79,7 +101,17 @@ class Cafe extends Storefront {
     }
     @Override
     public void displayStorefront() {
-        System.out.print(Menu);
+        for (Consumables item : Menu) {
+            item.displayProduct();
+        }
+    }
+
+    public ArrayList<Consumables> getMenu() {
+        return Menu;
+    }
+
+    public void addConsumable(Consumables consumable) {
+        Menu.add(consumable);
     }
     @Override
     public void BuyProduct() {
