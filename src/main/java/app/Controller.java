@@ -1,5 +1,9 @@
 package app;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -15,10 +19,17 @@ import product.Consumables;
 import product.Media;
 import product.Movie;
 import product.Product;
+
 import storefront.Bookstore;
 import storefront.Cafe;
 
+
 public class Controller {
+
+
+    // =====================================================
+    // FXML
+    // =====================================================
 
     @FXML
     private Button bookstoreButton;
@@ -26,8 +37,10 @@ public class Controller {
     @FXML
     private Button cafeButton;
 
+
     @FXML
     private TableView<Product> productTable;
+
 
     @FXML
     private TableColumn<Product, String> nameColumn;
@@ -49,6 +62,7 @@ public class Controller {
 
     @FXML
     private TableColumn<Product, String> detailsColumn;
+
 
     @FXML
     private TextField nameField;
@@ -74,17 +88,21 @@ public class Controller {
     @FXML
     private TextField runtimeField;
 
+
     @FXML
     private ComboBox<String> productTypeComboBox;
 
+
     @FXML
     private ImageView librarianImage;
+
 
     @FXML
     private Label earningsLabel;
 
     @FXML
     private Label dialogueLabel;
+
 
     @FXML
     private Button bookStockButton;
@@ -95,12 +113,41 @@ public class Controller {
     @FXML
     private Button consumablesStockButton;
 
+
+
+    // =====================================================
+    // VARIABLES
+    // =====================================================
+
     private Bookstore bookstore;
     private Cafe cafe;
 
     private Product selectedProduct;
 
     private String currentStore = "Bookstore";
+
+
+    /*
+     * Each Product object gets one librarian dialogue.
+     *
+     * The Product is the key.
+     * The selected dialogue is the value.
+     *
+     * Once assigned, it does not change.
+     */
+
+    private Map<Product, String> productDialogue =
+        new HashMap<>();
+
+
+    private Random random =
+        new Random();
+
+
+
+    // =====================================================
+    // INITIALIZE
+    // =====================================================
 
     @FXML
     public void initialize() {
@@ -112,171 +159,558 @@ public class Controller {
             0
         );
 
+
         cafe = new Cafe(
             "BookBeans Cafe",
             0,
             0
         );
 
+
         setupTable();
 
         setupLibrarianImage();
 
+        addDefaultProducts();
+
         showBookstore();
+
 
         productTypeComboBox.setOnAction(
             event -> updateProductFields()
         );
     }
 
+
+
+    // =====================================================
+    // DEFAULT PRODUCTS
+    // =====================================================
+
+    private void addDefaultProducts() {
+
+
+        // -------------------------------------------------
+        // BOOKS
+        // -------------------------------------------------
+
+        Book percyJackson = new Book(
+            "Percy Jackson and the Olympians: The Lightning Thief",
+            599.00,
+            5,
+            "Fantasy",
+            2005,
+            377,
+            "Rick Riordan"
+        );
+
+
+        Book metamorphosis = new Book(
+            "Metamorphosis",
+            450.00,
+            3,
+            "Fiction",
+            1915,
+            74,
+            "Franz Kafka"
+        );
+
+
+        Book nineteenEightyFour = new Book(
+            "1984",
+            500.00,
+            7,
+            "Dystopian",
+            1949,
+            328,
+            "George Orwell"
+        );
+
+
+        bookstore.addBook(percyJackson);
+
+        bookstore.addBook(metamorphosis);
+
+        bookstore.addBook(nineteenEightyFour);
+
+
+
+        // -------------------------------------------------
+        // MOVIES
+        // -------------------------------------------------
+
+        Movie projectHailMary = new Movie(
+            "Project Hail Mary",
+            650.00,
+            2,
+            "Science Fiction",
+            2026,
+            150,
+            "Phil Lord & Christopher Miller"
+        );
+
+
+        Movie ironLung = new Movie(
+            "Iron Lung",
+            600.00,
+            6,
+            "Horror",
+            2026,
+            93,
+            "Markiplier"
+        );
+
+
+        bookstore.addMovie(projectHailMary);
+
+        bookstore.addMovie(ironLung);
+
+
+
+        // -------------------------------------------------
+        // FOOD
+        // -------------------------------------------------
+
+        Consumables strawberrySundae =
+            new Consumables(
+                "Strawberry Sundae",
+                120.00,
+                12
+            );
+
+
+        Consumables carbonara =
+            new Consumables(
+                "Carbonara",
+                180.00,
+                5
+            );
+
+
+        cafe.addConsumable(
+            strawberrySundae
+        );
+
+        cafe.addConsumable(
+            carbonara
+        );
+
+
+
+        // -------------------------------------------------
+        // ASSIGN PERMANENT DIALOGUE
+        // -------------------------------------------------
+
+        assignDialogue(percyJackson);
+
+        assignDialogue(metamorphosis);
+
+        assignDialogue(nineteenEightyFour);
+
+
+        assignDialogue(projectHailMary);
+
+        assignDialogue(ironLung);
+
+
+        assignDialogue(strawberrySundae);
+
+        assignDialogue(carbonara);
+    }
+
+
+
+    // =====================================================
+    // DIALOGUE SYSTEM
+    // =====================================================
+
+    private void assignDialogue(Product product) {
+
+        String[] lines;
+
+
+        // BOOK
+
+        if (product instanceof Book) {
+
+            lines = new String[] {
+
+                "Ah, this one. Brings good memories.",
+
+                "You have refined taste. Would you like that one?",
+
+                "...Oh, no. I wouldn't..."
+            };
+        }
+
+
+        // MOVIE
+
+        else if (product instanceof Movie) {
+
+            lines = new String[] {
+
+                "You're interested in this?",
+
+                "...I suppose we all have our tastes.",
+
+                "This one! It's quite nice, yes."
+            };
+        }
+
+
+        // FOOD
+
+        else {
+
+            lines = new String[] {
+
+                "This one is delightful!",
+
+                "I do hope you enjoy this one.",
+
+                "Ah, a lovely choice."
+            };
+        }
+
+
+        int chosenLine =
+            random.nextInt(lines.length);
+
+
+        productDialogue.put(
+            product,
+            lines[chosenLine]
+        );
+    }
+
+
+
+    private String getProductDialogue(
+        Product product
+    ) {
+
+        /*
+         * If a product somehow does not have a dialogue yet,
+         * give it one.
+         *
+         * This also makes the system safe for newly-created
+         * products.
+         */
+
+        if (!productDialogue.containsKey(product)) {
+
+            assignDialogue(product);
+        }
+
+
+        return productDialogue.get(product);
+    }
+
+
+
+    private void showProductDialogue(
+        Product product
+    ) {
+
+        String librarianLine =
+            getProductDialogue(product);
+
+
+        String productInformation =
+            product.displayProduct();
+
+
+        dialogueLabel.setText(
+            librarianLine
+            + "\n\n"
+            + productInformation
+        );
+    }
+
+
+
+    // =====================================================
+    // ACTION DIALOGUE
+    // =====================================================
+
+    private String getBuyDialogue(
+        Product product
+    ) {
+
+        if (product instanceof Book) {
+
+            return "Do enjoy that one.";
+
+        } else if (product instanceof Movie) {
+
+            return "Thank you for taking that off my hands.";
+
+        } else {
+
+            return "Thank you for ordering.";
+        }
+    }
+
+
+
+    private String getDeleteDialogue(
+        Product product
+    ) {
+
+        if (product instanceof Book) {
+
+            return "Aahh! My book!";
+
+        } else if (product instanceof Movie) {
+
+            return "Oh, did it fall off, where'd it go?";
+
+        } else {
+
+            return "Did you just... consume that without paying?";
+        }
+    }
+
+
+
+    private String getUpdateDialogue(
+        Product product
+    ) {
+
+        if (product instanceof Book) {
+
+            return "Always good to keep these things in tip top shape.";
+
+        } else if (product instanceof Movie) {
+
+            return "Does that have a new title? I forget.";
+
+        } else {
+
+            return "Oh, is that right? I swear I got the ingredients right...!";
+        }
+    }
+
+
+
+    // =====================================================
+    // TABLE
+    // =====================================================
+
     private void setupTable() {
 
-        nameColumn.setCellValueFactory(cell ->
-            new javafx.beans.property.SimpleStringProperty(
-                cell.getValue().getName()
-            )
+
+        // NAME
+
+        nameColumn.setCellValueFactory(
+            cell ->
+                new javafx.beans.property.SimpleStringProperty(
+                    cell.getValue().getName()
+                )
         );
 
-        priceColumn.setCellValueFactory(cell ->
-            new javafx.beans.property.SimpleObjectProperty<>(
-                cell.getValue().getPrice()
-            )
+
+        // PRICE
+
+        priceColumn.setCellValueFactory(
+            cell ->
+                new javafx.beans.property.SimpleObjectProperty<>(
+                    cell.getValue().getPrice()
+                )
         );
 
-        stockColumn.setCellValueFactory(cell ->
-            new javafx.beans.property.SimpleObjectProperty<>(
-                cell.getValue().getStock()
-            )
+
+        // STOCK
+
+        stockColumn.setCellValueFactory(
+            cell ->
+                new javafx.beans.property.SimpleObjectProperty<>(
+                    cell.getValue().getStock()
+                )
         );
+
+
+        // GENRE
 
         genreColumn.setCellValueFactory(cell -> {
 
-            if (cell.getValue() instanceof Book) {
+            Product product =
+                cell.getValue();
 
-                Book book =
-                    (Book) cell.getValue();
 
-                return new javafx.beans.property.SimpleStringProperty(
-                    book.getGenre()
-                );
+            if (product instanceof Media) {
 
-            } else if (cell.getValue() instanceof Movie) {
+                Media media =
+                    (Media) product;
 
-                Movie movie =
-                    (Movie) cell.getValue();
 
                 return new javafx.beans.property.SimpleStringProperty(
-                    movie.getGenre()
+                    media.getGenre()
                 );
             }
 
-            return new javafx.beans.property.SimpleStringProperty("");
+
+            return new javafx.beans.property.SimpleStringProperty(
+                ""
+            );
         });
+
+
+
+        // RELEASE
 
         releaseColumn.setCellValueFactory(cell -> {
 
-            if (cell.getValue() instanceof Book) {
+            Product product =
+                cell.getValue();
 
-                Book book =
-                    (Book) cell.getValue();
 
-                return new javafx.beans.property.SimpleObjectProperty<>(
-                    book.getRelease()
-                );
+            if (product instanceof Media) {
 
-            } else if (cell.getValue() instanceof Movie) {
+                Media media =
+                    (Media) product;
 
-                Movie movie =
-                    (Movie) cell.getValue();
 
                 return new javafx.beans.property.SimpleObjectProperty<>(
-                    movie.getRelease()
+                    media.getRelease()
                 );
             }
 
-            return new javafx.beans.property.SimpleObjectProperty<>(0);
+
+            return new javafx.beans.property.SimpleObjectProperty<>(
+                null
+            );
         });
 
-        // CREATOR COLUMN
+
+
+        // CREATOR
+
         creatorColumn.setCellValueFactory(cell -> {
 
-        Product product = cell.getValue();
+            Product product =
+                cell.getValue();
 
-        if (product instanceof Media) {
 
-            Media media =
-                (Media) product;
+            if (product instanceof Media) {
+
+                Media media =
+                    (Media) product;
+
+
+                return new javafx.beans.property.SimpleStringProperty(
+                    media.getCreator()
+                );
+            }
+
 
             return new javafx.beans.property.SimpleStringProperty(
-                media.getCreator()
+                ""
             );
-        }
+        });
 
-        return new javafx.beans.property.SimpleStringProperty("");
-    });
+
+
+        // DETAILS
 
         detailsColumn.setCellValueFactory(cell -> {
 
-            if (cell.getValue() instanceof Book) {
+            Product product =
+                cell.getValue();
+
+
+            if (product instanceof Book) {
 
                 Book book =
-                    (Book) cell.getValue();
+                    (Book) product;
+
 
                 return new javafx.beans.property.SimpleStringProperty(
-                    book.getPageCount() + " pages"
-                );
-
-            } else if (cell.getValue() instanceof Movie) {
-
-                Movie movie =
-                    (Movie) cell.getValue();
-
-                return new javafx.beans.property.SimpleStringProperty(
-                    movie.getRuntime() + " min"
+                    book.getPageCount()
+                    + " pages"
                 );
             }
 
-            return new javafx.beans.property.SimpleStringProperty("");
+
+            else if (product instanceof Movie) {
+
+                Movie movie =
+                    (Movie) product;
+
+
+                return new javafx.beans.property.SimpleStringProperty(
+                    movie.getRuntime()
+                    + " min"
+                );
+            }
+
+
+            return new javafx.beans.property.SimpleStringProperty(
+                ""
+            );
         });
 
-        productTable.getSelectionModel()
+
+
+        // =================================================
+        // SELECTED PRODUCT
+        // =================================================
+
+        productTable
+            .getSelectionModel()
             .selectedItemProperty()
-            .addListener((observable, oldValue, newValue) -> {
+            .addListener(
+                (observable, oldValue, newValue) -> {
 
-                selectedProduct = newValue;
+                    selectedProduct =
+                        newValue;
 
-                if (selectedProduct != null) {
 
-                    fillFields(selectedProduct);
+                    if (selectedProduct != null) {
+
+                        fillFields(
+                            selectedProduct
+                        );
+
+
+                        /*
+                         * Selecting the item makes
+                         * the librarian speak.
+                         */
+
+                        showProductDialogue(
+                            selectedProduct
+                        );
+                    }
                 }
-            });
+            );
     }
+
+
+
+    // =====================================================
+    // LIBRARIAN IMAGE
+    // =====================================================
 
     private void setupLibrarianImage() {
 
-        /*
-         * Put your future image here:
-         *
-         * src/main/resources/app/images/librarian.png
-         *
-         * For now, if the image does not exist,
-         * the ImageView simply stays empty.
-         */
+        // Image image = new Image(
+        //     getClass()
+        //         .getResourceAsStream(
+        //             "/app/librarian.png"
+        //         )
+        // );
 
-        String imagePath =
-            "/app/images/librarian.png";
 
-        if (getClass().getResource(imagePath) != null) {
-
-            Image image = new Image(
-                getClass()
-                    .getResource(imagePath)
-                    .toExternalForm()
-            );
-
-            librarianImage.setImage(image);
-        }
+        // librarianImage.setImage(image);
     }
+
+
+
+    // =====================================================
+    // STORE BUTTONS
+    // =====================================================
 
     @FXML
     private void handleBookstore() {
@@ -284,304 +718,341 @@ public class Controller {
         showBookstore();
     }
 
+
     @FXML
     private void handleCafe() {
 
         showCafe();
     }
 
+
+
+    // =====================================================
+    // SHOW BOOKSTORE
+    // =====================================================
+
     private void showBookstore() {
 
-        currentStore = "Bookstore";
+        currentStore =
+            "Bookstore";
 
-        // Show Bookstore stock buttons
+
         bookStockButton.setVisible(true);
+
         bookStockButton.setManaged(true);
 
+
         movieStockButton.setVisible(true);
+
         movieStockButton.setManaged(true);
 
-        // Hide Cafe stock button
+
         consumablesStockButton.setVisible(false);
+
         consumablesStockButton.setManaged(false);
 
-        productTable.getItems().clear();
 
-        productTable.getItems().addAll(
-            bookstore.getBooks()
+
+        productTable
+            .getItems()
+            .clear();
+
+
+        /*
+         * This is the mixed ArrayList<Product>.
+         *
+         * It contains both Book and Movie objects.
+         */
+
+        productTable
+            .getItems()
+            .addAll(
+                bookstore.getProducts()
+            );
+
+
+
+        productTypeComboBox
+            .getItems()
+            .clear();
+
+
+        productTypeComboBox
+            .getItems()
+            .addAll(
+                "Book",
+                "Movie"
+            );
+
+
+        productTypeComboBox.setValue(
+            "Book"
         );
 
-        productTable.getItems().addAll(
-            bookstore.getMovies()
-        );
-
-        productTypeComboBox.getItems().clear();
-
-        productTypeComboBox.getItems().addAll(
-            "Book",
-            "Movie"
-        );
-
-        productTypeComboBox.setValue("Book");
 
         updateProductFields();
 
         updateEarnings();
+
 
         dialogueLabel.setText(
             "Welcome to the Bookstore!"
         );
     }
 
+
+
+    // =====================================================
+    // SHOW CAFE
+    // =====================================================
+
     private void showCafe() {
 
-        currentStore = "Cafe";
+        currentStore =
+            "Cafe";
 
-        // Hide Bookstore stock buttons
+
         bookStockButton.setVisible(false);
+
         bookStockButton.setManaged(false);
 
+
         movieStockButton.setVisible(false);
+
         movieStockButton.setManaged(false);
 
-        // Show Cafe stock button
+
         consumablesStockButton.setVisible(true);
+
         consumablesStockButton.setManaged(true);
 
-        productTable.getItems().clear();
 
-        productTable.getItems().addAll(
-            cafe.getMenu()
-        );
 
-        productTypeComboBox.getItems().clear();
+        productTable
+            .getItems()
+            .clear();
 
-        productTypeComboBox.getItems().add(
-            "Consumable"
-        );
+
+        productTable
+            .getItems()
+            .addAll(
+                cafe.getMenu()
+            );
+
+
+        productTypeComboBox
+            .getItems()
+            .clear();
+
+
+        productTypeComboBox
+            .getItems()
+            .add(
+                "Consumable"
+            );
+
 
         productTypeComboBox.setValue(
             "Consumable"
         );
 
+
         updateProductFields();
 
         updateEarnings();
+
 
         dialogueLabel.setText(
             "Welcome to the Cafe!"
         );
     }
 
-    private void updateProductFields() {
 
-        String productType =
-            productTypeComboBox.getValue();
 
-        if (productType == null) {
-            return;
-        }
-
-        if (productType.equals("Book")) {
-
-            pageCountField.setVisible(true);
-            pageCountField.setManaged(true);
-
-            runtimeField.setVisible(false);
-            runtimeField.setManaged(false);
-
-            runtimeField.clear();
-
-        } else if (productType.equals("Movie")) {
-
-            pageCountField.setVisible(false);
-            pageCountField.setManaged(false);
-
-            runtimeField.setVisible(true);
-            runtimeField.setManaged(true);
-
-            pageCountField.clear();
-
-        } else if (productType.equals("Consumable")) {
-
-            pageCountField.setVisible(false);
-            pageCountField.setManaged(false);
-
-            runtimeField.setVisible(false);
-            runtimeField.setManaged(false);
-
-            pageCountField.clear();
-            runtimeField.clear();
-        }
-    }
+    // =====================================================
+    // ADD
+    // =====================================================
 
     @FXML
     private void handleAdd() {
 
-        if (!validateBasicFields()) {
-            return;
-        }
-
         String name =
             nameField.getText();
 
-        Double price =
-            getDouble(priceField.getText());
 
-        Integer stock =
-            getInteger(stockField.getText());
+        String priceText =
+            priceField.getText();
 
-        if (price == null || stock == null) {
-            return;
-        }
 
-        if (price < 0) {
+        String stockText =
+            stockField.getText();
+
+
+
+        if (
+            name.isEmpty()
+            || priceText.isEmpty()
+            || stockText.isEmpty()
+        ) {
 
             dialogueLabel.setText(
-                "Price cannot be negative."
+                "Please fill in the basic product information."
             );
 
             return;
         }
 
-        if (stock < 0) {
 
-            dialogueLabel.setText(
-                "Stock cannot be negative."
+
+        double price =
+            Double.parseDouble(
+                priceText
             );
 
-            return;
-        }
 
-        String productType =
-            productTypeComboBox.getValue();
+        int stock =
+            Integer.parseInt(
+                stockText
+            );
 
-        if (currentStore.equals("Bookstore")) {
+
+
+        // BOOKSTORE
+
+        if (
+            currentStore.equals(
+                "Bookstore"
+            )
+        ) {
 
             String genre =
                 genreField.getText();
 
-            String creator =
-                creatorField.getText();
 
-            if (genre.isEmpty() || creator.isEmpty()) {
-
-                dialogueLabel.setText(
-                    "Please fill in the genre and creator."
-                );
-
-                return;
-            }
-
-            Integer release =
-                getInteger(
+            int release =
+                Integer.parseInt(
                     releaseField.getText()
                 );
 
-            if (release == null) {
-                return;
-            }
 
-            if (productType.equals("Book")) {
+            String creator =
+                creatorField.getText();
 
-                Integer pages =
-                    getInteger(
+
+
+            // BOOK
+
+            if (
+                productTypeComboBox
+                    .getValue()
+                    .equals("Book")
+            ) {
+
+                int pageCount =
+                    Integer.parseInt(
                         pageCountField.getText()
                     );
 
-                if (pages == null) {
-                    return;
-                }
 
-                if (pages <= 0) {
-
-                    dialogueLabel.setText(
-                        "Page count must be greater than 0."
+                Book book =
+                    new Book(
+                        name,
+                        price,
+                        stock,
+                        genre,
+                        release,
+                        pageCount,
+                        creator
                     );
 
-                    return;
-                }
 
-                Book book = new Book(
-                    name,
-                    price,
-                    stock,
-                    genre,
-                    release,
-                    pages,
-                    creator
+                bookstore.addBook(
+                    book
                 );
 
-                bookstore.addBook(book);
 
-                dialogueLabel.setText(
-                    "The book has been added!"
-                );
+                // Give this new object
+                // its permanent dialogue.
 
-            } else if (productType.equals("Movie")) {
-
-                Integer runtime =
-                    getInteger(
-                        runtimeField.getText()
-                    );
-
-                if (runtime == null) {
-                    return;
-                }
-
-                if (runtime <= 0) {
-
-                    dialogueLabel.setText(
-                        "Runtime must be greater than 0."
-                    );
-
-                    return;
-                }
-
-                Movie movie = new Movie(
-                    name,
-                    price,
-                    stock,
-                    genre,
-                    release,
-                    runtime,
-                    creator
-                );
-
-                bookstore.addMovie(movie);
-
-                dialogueLabel.setText(
-                    "The movie has been added!"
+                assignDialogue(
+                    book
                 );
             }
 
+
+
+            // MOVIE
+
+            else {
+
+                int runtime =
+                    Integer.parseInt(
+                        runtimeField.getText()
+                    );
+
+
+                Movie movie =
+                    new Movie(
+                        name,
+                        price,
+                        stock,
+                        genre,
+                        release,
+                        runtime,
+                        creator
+                    );
+
+
+                bookstore.addMovie(
+                    movie
+                );
+
+
+                assignDialogue(
+                    movie
+                );
+            }
+
+
             showBookstore();
+        }
 
-            // Refresh the table so the Creator column updates
-            productTable.refresh();
 
-        } else {
 
-            Consumables item =
+        // CAFE
+
+        else {
+
+            Consumables consumable =
                 new Consumables(
                     name,
                     price,
                     stock
                 );
 
-            cafe.addConsumable(item);
 
-            dialogueLabel.setText(
-                "The item has been added to the cafe!"
+            cafe.addConsumable(
+                consumable
             );
 
-            showCafe();
 
-            productTable.refresh();
+            assignDialogue(
+                consumable
+            );
+
+
+            showCafe();
         }
+
 
         clearFields();
     }
+
+
+
+    // =====================================================
+    // UPDATE
+    // =====================================================
 
     @FXML
     private void handleUpdate() {
@@ -595,72 +1066,34 @@ public class Controller {
             return;
         }
 
-        if (!validateBasicFields()) {
-            return;
-        }
 
         String name =
             nameField.getText();
 
-        Double price =
-            getDouble(
+
+        double price =
+            Double.parseDouble(
                 priceField.getText()
             );
 
-        Integer stock =
-            getInteger(
+
+        int stock =
+            Integer.parseInt(
                 stockField.getText()
             );
 
-        if (price == null || stock == null) {
-            return;
-        }
 
-        if (price < 0) {
 
-            dialogueLabel.setText(
-                "Price cannot be negative."
-            );
+        // BOOK
 
-            return;
-        }
-
-        if (stock < 0) {
-
-            dialogueLabel.setText(
-                "Stock cannot be negative."
-            );
-
-            return;
-        }
-
-        if (selectedProduct instanceof Book) {
+        if (
+            selectedProduct
+                instanceof Book
+        ) {
 
             Book book =
                 (Book) selectedProduct;
 
-            Integer release =
-                getInteger(
-                    releaseField.getText()
-                );
-
-            Integer pages =
-                getInteger(
-                    pageCountField.getText()
-                );
-
-            if (release == null || pages == null) {
-                return;
-            }
-
-            if (pages <= 0) {
-
-                dialogueLabel.setText(
-                    "Page count must be greater than 0."
-                );
-
-                return;
-            }
 
             bookstore.updateBook(
                 book,
@@ -668,44 +1101,28 @@ public class Controller {
                 price,
                 stock,
                 genreField.getText(),
-                release,
-                pages,
+                Integer.parseInt(
+                    releaseField.getText()
+                ),
+                Integer.parseInt(
+                    pageCountField.getText()
+                ),
                 creatorField.getText()
             );
+        }
 
-            dialogueLabel.setText(
-                "The book has been updated!"
-            );
 
-            showBookstore();
 
-        } else if (selectedProduct instanceof Movie) {
+        // MOVIE
+
+        else if (
+            selectedProduct
+                instanceof Movie
+        ) {
 
             Movie movie =
                 (Movie) selectedProduct;
 
-            Integer release =
-                getInteger(
-                    releaseField.getText()
-                );
-
-            Integer runtime =
-                getInteger(
-                    runtimeField.getText()
-                );
-
-            if (release == null || runtime == null) {
-                return;
-            }
-
-            if (runtime <= 0) {
-
-                dialogueLabel.setText(
-                    "Runtime must be greater than 0."
-                );
-
-                return;
-            }
 
             bookstore.updateMovie(
                 movie,
@@ -713,18 +1130,24 @@ public class Controller {
                 price,
                 stock,
                 genreField.getText(),
-                release,
-                runtime,
+                Integer.parseInt(
+                    releaseField.getText()
+                ),
+                Integer.parseInt(
+                    runtimeField.getText()
+                ),
                 creatorField.getText()
             );
+        }
 
-            dialogueLabel.setText(
-                "The movie has been updated!"
-            );
 
-            showBookstore();
 
-        } else if (selectedProduct instanceof Consumables) {
+        // FOOD
+
+        else if (
+            selectedProduct
+                instanceof Consumables
+        ) {
 
             cafe.updateConsumable(
                 (Consumables) selectedProduct,
@@ -732,18 +1155,49 @@ public class Controller {
                 price,
                 stock
             );
+        }
 
-            dialogueLabel.setText(
-                "The cafe item has been updated!"
+
+
+        // Save the dialogue before
+        // refreshing the store display.
+
+        String updateDialogue =
+            getUpdateDialogue(
+                selectedProduct
             );
+
+
+
+        if (
+            currentStore.equals(
+                "Bookstore"
+            )
+        ) {
+
+            showBookstore();
+
+        } else {
 
             showCafe();
         }
 
+
         selectedProduct = null;
 
         clearFields();
+
+
+        dialogueLabel.setText(
+            updateDialogue
+        );
     }
+
+
+
+    // =====================================================
+    // DELETE
+    // =====================================================
 
     @FXML
     private void handleDelete() {
@@ -757,47 +1211,91 @@ public class Controller {
             return;
         }
 
-        if (selectedProduct instanceof Book) {
+
+        // Save the dialogue before
+        // removing the object.
+
+        String deleteDialogue =
+            getDeleteDialogue(
+                selectedProduct
+            );
+
+
+
+        if (
+            selectedProduct
+                instanceof Book
+        ) {
 
             bookstore.deleteBook(
                 (Book) selectedProduct
             );
+        }
 
-            dialogueLabel.setText(
-                "The book has been deleted."
-            );
 
-            showBookstore();
-
-        } else if (selectedProduct instanceof Movie) {
+        else if (
+            selectedProduct
+                instanceof Movie
+        ) {
 
             bookstore.deleteMovie(
                 (Movie) selectedProduct
             );
+        }
 
-            dialogueLabel.setText(
-                "The movie has been deleted."
-            );
 
-            showBookstore();
-
-        } else if (selectedProduct instanceof Consumables) {
+        else if (
+            selectedProduct
+                instanceof Consumables
+        ) {
 
             cafe.deleteConsumable(
                 (Consumables) selectedProduct
             );
+        }
 
-            dialogueLabel.setText(
-                "The cafe item has been deleted."
-            );
+
+
+        /*
+         * Remove the dialogue associated
+         * with the deleted object.
+         */
+
+        productDialogue.remove(
+            selectedProduct
+        );
+
+
+
+        if (
+            currentStore.equals(
+                "Bookstore"
+            )
+        ) {
+
+            showBookstore();
+
+        } else {
 
             showCafe();
         }
 
+
         selectedProduct = null;
 
         clearFields();
+
+
+        dialogueLabel.setText(
+            deleteDialogue
+        );
     }
+
+
+
+    // =====================================================
+    // BUY
+    // =====================================================
 
     @FXML
     private void handleBuy() {
@@ -811,7 +1309,12 @@ public class Controller {
             return;
         }
 
-        if (selectedProduct.getStock() <= 0) {
+
+
+        if (
+            selectedProduct.getStock()
+            <= 0
+        ) {
 
             dialogueLabel.setText(
                 "Sorry, this product is out of stock."
@@ -820,73 +1323,113 @@ public class Controller {
             return;
         }
 
-        if (selectedProduct instanceof Book
-                || selectedProduct instanceof Movie) {
+
+
+        /*
+         * Get the appropriate dialogue
+         * before refreshing the store.
+         */
+
+        String buyDialogue =
+            getBuyDialogue(
+                selectedProduct
+            );
+
+
+
+        // BOOK / MOVIE
+
+        if (
+            selectedProduct instanceof Book
+            || selectedProduct instanceof Movie
+        ) {
 
             bookstore.BuyProduct(
                 selectedProduct
             );
 
-            dialogueLabel.setText(
-                "Thank you for your purchase!"
-            );
 
             showBookstore();
+        }
 
-        } else if (selectedProduct instanceof Consumables) {
+
+
+        // FOOD
+
+        else if (
+            selectedProduct
+                instanceof Consumables
+        ) {
 
             cafe.BuyProduct(
                 selectedProduct
             );
 
-            dialogueLabel.setText(
-                "Thank you for your order!"
-            );
 
             showCafe();
         }
 
+
         updateEarnings();
+
+
+        dialogueLabel.setText(
+            buyDialogue
+        );
     }
 
-    // BOOK STOCK BUTTON
+
+
+    // =====================================================
+    // STOCK BUTTONS
+    // =====================================================
+
     @FXML
     private void handleBookStock() {
 
         dialogueLabel.setText(
-            "Oh, I'm so glad you asked! There are " +
-            bookstore.getBookStock() +
-            " books in stock!"
+            "Oh, I'm so glad you asked! There are "
+            + bookstore.getBookStock()
+            + " books in stock!"
         );
     }
 
-    // MOVIE STOCK BUTTON
+
     @FXML
     private void handleMovieStock() {
 
         dialogueLabel.setText(
-            "Oh, you want to know? There are " +
-            bookstore.getMovieStock() +
-            " movies in stock."
+            "Oh, you want to know? There are "
+            + bookstore.getMovieStock()
+            + " movies in stock."
         );
     }
 
-    // CONSUMABLES STOCK BUTTON
+
     @FXML
     private void handleConsumablesStock() {
 
         dialogueLabel.setText(
-            "How much food, you say? Well, currently there are " +
-            cafe.getMenuItems() +
-            " items in the cafe."
+            "How much food, you say? Well, currently there are "
+            + cafe.getMenuItems()
+            + " items in the cafe."
         );
     }
 
-    private void fillFields(Product product) {
+
+
+    // =====================================================
+    // FILL FIELDS
+    // =====================================================
+
+    private void fillFields(
+        Product product
+    ) {
 
         nameField.setText(
             product.getName()
         );
+
 
         priceField.setText(
             String.valueOf(
@@ -894,40 +1437,49 @@ public class Controller {
             )
         );
 
+
         stockField.setText(
             String.valueOf(
                 product.getStock()
             )
         );
 
-        genreField.clear();
-        releaseField.clear();
-        creatorField.clear();
-        pageCountField.clear();
-        runtimeField.clear();
 
-        if (product instanceof Book) {
+
+        if (
+            product instanceof Media
+        ) {
+
+            Media media =
+                (Media) product;
+
+
+            genreField.setText(
+                media.getGenre()
+            );
+
+
+            releaseField.setText(
+                String.valueOf(
+                    media.getRelease()
+                )
+            );
+
+
+            creatorField.setText(
+                media.getCreator()
+            );
+        }
+
+
+
+        if (
+            product instanceof Book
+        ) {
 
             Book book =
                 (Book) product;
 
-            productTypeComboBox.setValue(
-                "Book"
-            );
-
-            genreField.setText(
-                book.getGenre()
-            );
-
-            releaseField.setText(
-                String.valueOf(
-                    book.getRelease()
-                )
-            );
-
-            creatorField.setText(
-                book.getCreator()
-            );
 
             pageCountField.setText(
                 String.valueOf(
@@ -935,28 +1487,20 @@ public class Controller {
                 )
             );
 
-        } else if (product instanceof Movie) {
+        } else {
+
+            pageCountField.clear();
+        }
+
+
+
+        if (
+            product instanceof Movie
+        ) {
 
             Movie movie =
                 (Movie) product;
 
-            productTypeComboBox.setValue(
-                "Movie"
-            );
-
-            genreField.setText(
-                movie.getGenre()
-            );
-
-            releaseField.setText(
-                String.valueOf(
-                    movie.getRelease()
-                )
-            );
-
-            creatorField.setText(
-                movie.getCreator()
-            );
 
             runtimeField.setText(
                 String.valueOf(
@@ -964,86 +1508,89 @@ public class Controller {
                 )
             );
 
-        } else if (product instanceof Consumables) {
+        } else {
 
-            productTypeComboBox.setValue(
-                "Consumable"
-            );
-        }
-
-        updateProductFields();
-    }
-
-    private boolean validateBasicFields() {
-
-        if (nameField.getText().isEmpty()) {
-
-            dialogueLabel.setText(
-                "Please enter a product name."
-            );
-
-            return false;
-        }
-
-        if (priceField.getText().isEmpty()) {
-
-            dialogueLabel.setText(
-                "Please enter a price."
-            );
-
-            return false;
-        }
-
-        if (stockField.getText().isEmpty()) {
-
-            dialogueLabel.setText(
-                "Please enter the stock."
-            );
-
-            return false;
-        }
-
-        return true;
-    }
-
-    private Double getDouble(String text) {
-
-        try {
-
-            return Double.parseDouble(text);
-
-        } catch (NumberFormatException e) {
-
-            dialogueLabel.setText(
-                "Please enter a valid number for the price."
-            );
-
-            return null;
+            runtimeField.clear();
         }
     }
 
-    private Integer getInteger(String text) {
 
-        try {
 
-            return Integer.parseInt(text);
+    // =====================================================
+    // PRODUCT TYPE FIELDS
+    // =====================================================
 
-        } catch (NumberFormatException e) {
+    private void updateProductFields() {
 
-            dialogueLabel.setText(
-                "Please enter a valid whole number."
-            );
+        String type =
+            productTypeComboBox.getValue();
 
-            return null;
+
+        boolean isBook =
+            "Book".equals(type);
+
+
+        boolean isMovie =
+            "Movie".equals(type);
+
+
+        boolean isConsumable =
+            "Consumable".equals(type);
+
+
+
+        genreField.setDisable(
+            isConsumable
+        );
+
+
+        releaseField.setDisable(
+            isConsumable
+        );
+
+
+        creatorField.setDisable(
+            isConsumable
+        );
+
+
+        pageCountField.setDisable(
+            !isBook
+        );
+
+
+        runtimeField.setDisable(
+            !isMovie
+        );
+
+
+
+        if (isConsumable) {
+
+            genreField.clear();
+
+            releaseField.clear();
+
+            creatorField.clear();
+
+            pageCountField.clear();
+
+            runtimeField.clear();
         }
     }
 
-    // COMBINED EARNINGS
+
+
+    // =====================================================
+    // EARNINGS
+    // =====================================================
+
     private void updateEarnings() {
 
         double totalEarnings =
             bookstore.getEarnings()
             + cafe.getEarnings();
+
 
         earningsLabel.setText(
             String.format(
@@ -1053,15 +1600,28 @@ public class Controller {
         );
     }
 
+
+
+    // =====================================================
+    // CLEAR FIELDS
+    // =====================================================
+
     private void clearFields() {
 
         nameField.clear();
+
         priceField.clear();
+
         stockField.clear();
+
         genreField.clear();
+
         releaseField.clear();
+
         creatorField.clear();
+
         pageCountField.clear();
+
         runtimeField.clear();
     }
 }

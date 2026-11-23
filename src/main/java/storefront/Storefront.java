@@ -1,18 +1,24 @@
 package storefront;
+
 import product.Product;
 
-
-abstract class Storefront {
+public abstract class Storefront {
 
     private String name;
     private double earnings;
 
 
-    Storefront(String name, double earnings) {
+    public Storefront(
+        String name,
+        double earnings
+    ) {
+
         this.name = name;
         this.earnings = earnings;
     }
 
+
+    // GETTERS
 
     public String getName() {
         return name;
@@ -22,12 +28,21 @@ abstract class Storefront {
         return earnings;
     }
 
+
+    // SETTERS
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setEarnings(double earnings) {
         this.earnings = earnings;
     }
 
 
-    abstract void displayStorefront();
+    // ABSTRACT METHODS
 
-    abstract void BuyProduct(Product product);
+    public abstract void displayStorefront();
+
+    public abstract void BuyProduct(Product product);
 }
