@@ -19,7 +19,7 @@ public class Cafe extends Storefront {
     }
 
 
-    Cafe(String name, double earnings, int customers,
+    public Cafe(String name, double earnings, int customers,
          int MenuItems) {
 
         super(name, earnings, customers);

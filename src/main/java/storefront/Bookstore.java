@@ -6,7 +6,7 @@ import product.Book;
 import product.Movie;
 import product.Product;
 
-class Bookstore extends Storefront {
+public class Bookstore extends Storefront {
 
     // Number of different book and movie products
     private int BookStock;
@@ -25,7 +25,7 @@ class Bookstore extends Storefront {
     }
 
 
-    Bookstore(String name, double earnings, int customers,
+    public Bookstore(String name, double earnings, int customers,
               int BookStock, int MovieStock) {
 
         super(name, earnings, customers);
