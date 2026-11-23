@@ -109,13 +109,11 @@ public class Controller {
             "BookBeans Bookstore",
             0,
             0,
-            0,
             0
         );
 
         cafe = new Cafe(
             "BookBeans Cafe",
-            0,
             0,
             0
         );
