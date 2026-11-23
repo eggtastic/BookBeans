@@ -19,10 +19,10 @@ public class Cafe extends Storefront {
     }
 
 
-    public Cafe(String name, double earnings, int customers,
+    public Cafe(String name, double earnings,
          int MenuItems) {
 
-        super(name, earnings, customers);
+        super(name, earnings);
 
         this.MenuItems = MenuItems;
     }
