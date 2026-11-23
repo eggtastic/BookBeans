@@ -25,10 +25,10 @@ public class Bookstore extends Storefront {
     }
 
 
-    public Bookstore(String name, double earnings, int customers,
+    public Bookstore(String name, double earnings,
               int BookStock, int MovieStock) {
 
-        super(name, earnings, customers);
+        super(name, earnings);
 
         this.BookStock = BookStock;
         this.MovieStock = MovieStock;

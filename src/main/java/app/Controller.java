@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 
 import product.Book;
 import product.Consumables;
+import product.Media;
 import product.Movie;
 import product.Product;
 import storefront.Bookstore;
@@ -85,6 +86,15 @@ public class Controller {
     @FXML
     private Label dialogueLabel;
 
+    @FXML
+    private Button bookStockButton;
+
+    @FXML
+    private Button movieStockButton;
+
+    @FXML
+    private Button consumablesStockButton;
+
     private Bookstore bookstore;
     private Cafe cafe;
 
@@ -121,10 +131,6 @@ public class Controller {
         );
     }
 
-    // ---------------------------------------------------------
-    // TABLE
-    // ---------------------------------------------------------
-
     private void setupTable() {
 
         nameColumn.setCellValueFactory(cell ->
@@ -149,7 +155,8 @@ public class Controller {
 
             if (cell.getValue() instanceof Book) {
 
-                Book book = (Book) cell.getValue();
+                Book book =
+                    (Book) cell.getValue();
 
                 return new javafx.beans.property.SimpleStringProperty(
                     book.getGenre()
@@ -157,7 +164,8 @@ public class Controller {
 
             } else if (cell.getValue() instanceof Movie) {
 
-                Movie movie = (Movie) cell.getValue();
+                Movie movie =
+                    (Movie) cell.getValue();
 
                 return new javafx.beans.property.SimpleStringProperty(
                     movie.getGenre()
@@ -171,7 +179,8 @@ public class Controller {
 
             if (cell.getValue() instanceof Book) {
 
-                Book book = (Book) cell.getValue();
+                Book book =
+                    (Book) cell.getValue();
 
                 return new javafx.beans.property.SimpleObjectProperty<>(
                     book.getRelease()
@@ -179,7 +188,8 @@ public class Controller {
 
             } else if (cell.getValue() instanceof Movie) {
 
-                Movie movie = (Movie) cell.getValue();
+                Movie movie =
+                    (Movie) cell.getValue();
 
                 return new javafx.beans.property.SimpleObjectProperty<>(
                     movie.getRelease()
@@ -189,33 +199,30 @@ public class Controller {
             return new javafx.beans.property.SimpleObjectProperty<>(0);
         });
 
+        // CREATOR COLUMN
         creatorColumn.setCellValueFactory(cell -> {
 
-            if (cell.getValue() instanceof Book) {
+        Product product = cell.getValue();
 
-                Book book = (Book) cell.getValue();
+        if (product instanceof Media) {
 
-                return new javafx.beans.property.SimpleStringProperty(
-                    book.getCreator()
-                );
+            Media media =
+                (Media) product;
 
-            } else if (cell.getValue() instanceof Movie) {
+            return new javafx.beans.property.SimpleStringProperty(
+                media.getCreator()
+            );
+        }
 
-                Movie movie = (Movie) cell.getValue();
-
-                return new javafx.beans.property.SimpleStringProperty(
-                    movie.getCreator()
-                );
-            }
-
-            return new javafx.beans.property.SimpleStringProperty("");
-        });
+        return new javafx.beans.property.SimpleStringProperty("");
+    });
 
         detailsColumn.setCellValueFactory(cell -> {
 
             if (cell.getValue() instanceof Book) {
 
-                Book book = (Book) cell.getValue();
+                Book book =
+                    (Book) cell.getValue();
 
                 return new javafx.beans.property.SimpleStringProperty(
                     book.getPageCount() + " pages"
@@ -223,7 +230,8 @@ public class Controller {
 
             } else if (cell.getValue() instanceof Movie) {
 
-                Movie movie = (Movie) cell.getValue();
+                Movie movie =
+                    (Movie) cell.getValue();
 
                 return new javafx.beans.property.SimpleStringProperty(
                     movie.getRuntime() + " min"
@@ -233,7 +241,6 @@ public class Controller {
             return new javafx.beans.property.SimpleStringProperty("");
         });
 
-        // Detect which product the user selected
         productTable.getSelectionModel()
             .selectedItemProperty()
             .addListener((observable, oldValue, newValue) -> {
@@ -241,14 +248,11 @@ public class Controller {
                 selectedProduct = newValue;
 
                 if (selectedProduct != null) {
+
                     fillFields(selectedProduct);
                 }
             });
     }
-
-    // ---------------------------------------------------------
-    // LIBRARIAN IMAGE
-    // ---------------------------------------------------------
 
     private void setupLibrarianImage() {
 
@@ -261,21 +265,20 @@ public class Controller {
          * the ImageView simply stays empty.
          */
 
-        String imagePath = "/app/images/librarian.png";
+        String imagePath =
+            "/app/images/librarian.png";
 
         if (getClass().getResource(imagePath) != null) {
 
             Image image = new Image(
-                getClass().getResource(imagePath).toExternalForm()
+                getClass()
+                    .getResource(imagePath)
+                    .toExternalForm()
             );
 
             librarianImage.setImage(image);
         }
     }
-
-    // ---------------------------------------------------------
-    // STORE BUTTONS
-    // ---------------------------------------------------------
 
     @FXML
     private void handleBookstore() {
@@ -289,13 +292,20 @@ public class Controller {
         showCafe();
     }
 
-    // ---------------------------------------------------------
-    // SHOW BOOKSTORE
-    // ---------------------------------------------------------
-
     private void showBookstore() {
 
         currentStore = "Bookstore";
+
+        // Show Bookstore stock buttons
+        bookStockButton.setVisible(true);
+        bookStockButton.setManaged(true);
+
+        movieStockButton.setVisible(true);
+        movieStockButton.setManaged(true);
+
+        // Hide Cafe stock button
+        consumablesStockButton.setVisible(false);
+        consumablesStockButton.setManaged(false);
 
         productTable.getItems().clear();
 
@@ -325,13 +335,20 @@ public class Controller {
         );
     }
 
-    // ---------------------------------------------------------
-    // SHOW CAFE
-    // ---------------------------------------------------------
-
     private void showCafe() {
 
         currentStore = "Cafe";
+
+        // Hide Bookstore stock buttons
+        bookStockButton.setVisible(false);
+        bookStockButton.setManaged(false);
+
+        movieStockButton.setVisible(false);
+        movieStockButton.setManaged(false);
+
+        // Show Cafe stock button
+        consumablesStockButton.setVisible(true);
+        consumablesStockButton.setManaged(true);
 
         productTable.getItems().clear();
 
@@ -357,10 +374,6 @@ public class Controller {
             "Welcome to the Cafe!"
         );
     }
-
-    // ---------------------------------------------------------
-    // PRODUCT FIELD VISIBILITY
-    // ---------------------------------------------------------
 
     private void updateProductFields() {
 
@@ -404,10 +417,6 @@ public class Controller {
         }
     }
 
-    // ---------------------------------------------------------
-    // ADD PRODUCT
-    // ---------------------------------------------------------
-
     @FXML
     private void handleAdd() {
 
@@ -415,15 +424,14 @@ public class Controller {
             return;
         }
 
-        String name = nameField.getText();
+        String name =
+            nameField.getText();
 
-        Double price = getDouble(
-            priceField.getText()
-        );
+        Double price =
+            getDouble(priceField.getText());
 
-        Integer stock = getInteger(
-            stockField.getText()
-        );
+        Integer stock =
+            getInteger(stockField.getText());
 
         if (price == null || stock == null) {
             return;
@@ -551,6 +559,9 @@ public class Controller {
 
             showBookstore();
 
+            // Refresh the table so the Creator column updates
+            productTable.refresh();
+
         } else {
 
             Consumables item =
@@ -567,14 +578,12 @@ public class Controller {
             );
 
             showCafe();
+
+            productTable.refresh();
         }
 
         clearFields();
     }
-
-    // ---------------------------------------------------------
-    // UPDATE PRODUCT
-    // ---------------------------------------------------------
 
     @FXML
     private void handleUpdate() {
@@ -738,10 +747,6 @@ public class Controller {
         clearFields();
     }
 
-    // ---------------------------------------------------------
-    // DELETE PRODUCT
-    // ---------------------------------------------------------
-
     @FXML
     private void handleDelete() {
 
@@ -796,10 +801,6 @@ public class Controller {
         clearFields();
     }
 
-    // ---------------------------------------------------------
-    // BUY PRODUCT
-    // ---------------------------------------------------------
-
     @FXML
     private void handleBuy() {
 
@@ -812,7 +813,6 @@ public class Controller {
             return;
         }
 
-        // Prevent purchase if stock is already 0
         if (selectedProduct.getStock() <= 0) {
 
             dialogueLabel.setText(
@@ -851,9 +851,38 @@ public class Controller {
         updateEarnings();
     }
 
-    // ---------------------------------------------------------
-    // FILL FIELDS WHEN SELECTING A PRODUCT
-    // ---------------------------------------------------------
+    // BOOK STOCK BUTTON
+    @FXML
+    private void handleBookStock() {
+
+        dialogueLabel.setText(
+            "Oh, I'm so glad you asked! There are " +
+            bookstore.getBookStock() +
+            " books in stock!"
+        );
+    }
+
+    // MOVIE STOCK BUTTON
+    @FXML
+    private void handleMovieStock() {
+
+        dialogueLabel.setText(
+            "Oh, you want to know? There are " +
+            bookstore.getMovieStock() +
+            " movies in stock."
+        );
+    }
+
+    // CONSUMABLES STOCK BUTTON
+    @FXML
+    private void handleConsumablesStock() {
+
+        dialogueLabel.setText(
+            "How much food, you say? Well, currently there are " +
+            cafe.getMenuItems() +
+            " items in the cafe."
+        );
+    }
 
     private void fillFields(Product product) {
 
@@ -947,10 +976,6 @@ public class Controller {
         updateProductFields();
     }
 
-    // ---------------------------------------------------------
-    // VALIDATION
-    // ---------------------------------------------------------
-
     private boolean validateBasicFields() {
 
         if (nameField.getText().isEmpty()) {
@@ -1015,35 +1040,20 @@ public class Controller {
         }
     }
 
-    // ---------------------------------------------------------
-    // EARNINGS
-    // ---------------------------------------------------------
-
+    // COMBINED EARNINGS
     private void updateEarnings() {
 
-        if (currentStore.equals("Bookstore")) {
+        double totalEarnings =
+            bookstore.getEarnings()
+            + cafe.getEarnings();
 
-            earningsLabel.setText(
-                String.format(
-                    "Earnings: PHP %.2f",
-                    bookstore.getEarnings()
-                )
-            );
-
-        } else {
-
-            earningsLabel.setText(
-                String.format(
-                    "Earnings: PHP %.2f",
-                    cafe.getEarnings()
-                )
-            );
-        }
+        earningsLabel.setText(
+            String.format(
+                "Earnings: PHP %.2f",
+                totalEarnings
+            )
+        );
     }
-
-    // ---------------------------------------------------------
-    // CLEAR FIELDS
-    // ---------------------------------------------------------
 
     private void clearFields() {
 

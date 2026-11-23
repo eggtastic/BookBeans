@@ -30,6 +30,7 @@ public class Media extends Product {
        super(name, price, stock);
        this.genre = genre;
        this.release = release;
+       this.creator = creator;
     }
 
     public void displayProduct() {

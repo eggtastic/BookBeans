@@ -30,9 +30,11 @@
 
         <!-- BookBeans Title -->
         <Label text="BookBeans">
+
             <font>
                 <Font size="24.0" />
             </font>
+
         </Label>
 
         <SplitPane dividerPositions="0.65"
@@ -248,6 +250,36 @@
                             </children>
 
                         </VBox>
+
+                        <!-- Stock Buttons -->
+                        <HBox alignment="CENTER"
+                              spacing="10.0">
+
+                            <children>
+
+                                <!-- Bookstore: Book Stock -->
+                                <Button fx:id="bookStockButton"
+                                        mnemonicParsing="false"
+                                        text="Book Stock?"
+                                        onAction="#handleBookStock" />
+
+                                <!-- Bookstore: Movie Stock -->
+                                <Button fx:id="movieStockButton"
+                                        mnemonicParsing="false"
+                                        text="Movie Stock?"
+                                        onAction="#handleMovieStock" />
+
+                                <!-- Cafe: Consumables Stock -->
+                                <Button fx:id="consumablesStockButton"
+                                        mnemonicParsing="false"
+                                        text="Consumables Stock?"
+                                        onAction="#handleConsumablesStock"
+                                        visible="false"
+                                        managed="false" />
+
+                            </children>
+
+                        </HBox>
 
                     </children>
 

@@ -6,13 +6,11 @@ abstract class Storefront {
 
     private String name;
     private double earnings;
-    private int customers;
 
 
-    Storefront(String name, double earnings, int customers) {
+    Storefront(String name, double earnings) {
         this.name = name;
         this.earnings = earnings;
-        this.customers = customers;
     }
 
 
@@ -22,10 +20,6 @@ abstract class Storefront {
 
     public double getEarnings() {
         return earnings;
-    }
-
-    public int getCustomers() {
-        return customers;
     }
 
     public void setEarnings(double earnings) {
