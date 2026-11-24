@@ -189,6 +189,11 @@
                 <HBox spacing="10.0">
 
                     <Button
+                    text="Add Product"
+                    onAction="#handleAdd"
+                    prefWidth="100.0"/>
+
+                    <Button
                         text="Delete"
                         onAction="#handleDelete"
                         prefWidth="100.0"/>
