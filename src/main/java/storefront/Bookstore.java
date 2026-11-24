@@ -58,23 +58,21 @@ public class Bookstore extends Storefront {
     // CREATE
     // =====================================================
 
-    public void addBook(Book book) {
+    @Override
+    public void addProduct(Product product) {
 
-        Books.add(book);
+        if (product instanceof Book) {
 
-        Products.add(book);
+            Books.add((Book) product);
+            BookStock++;
 
-        BookStock++;
-    }
+        } else if (product instanceof Movie) {
 
+            Movies.add((Movie) product);
+            MovieStock++;
+        }
 
-    public void addMovie(Movie movie) {
-
-        Movies.add(movie);
-
-        Products.add(movie);
-
-        MovieStock++;
+        Products.add(product);
     }
 
 
@@ -82,45 +80,44 @@ public class Bookstore extends Storefront {
     // UPDATE
     // =====================================================
 
-    public void updateBook(
-        Book book,
-        String name,
-        double price,
-        int stock,
-        String genre,
-        int release,
-        int pageCount,
-        String creator
-    ) {
+    @Override
+    public void updateProduct(Product product) {
 
-        book.setName(name);
-        book.setPrice(price);
-        book.setStock(stock);
-        book.setGenre(genre);
-        book.setRelease(release);
-        book.setPageCount(pageCount);
-        book.setCreator(creator);
-    }
+        /*
+         * The Product object is already inside the lists.
+         *
+         * Since Product, Media, Book, and Movie use setters,
+         * the Controller can update the object's information
+         * and then send the Product here.
+         *
+         * This method makes sure the product is still part
+         * of the correct bookstore collection.
+         */
 
+        if (product instanceof Book) {
 
-    public void updateMovie(
-        Movie movie,
-        String name,
-        double price,
-        int stock,
-        String genre,
-        int release,
-        int runtime,
-        String creator
-    ) {
+            Book book = (Book) product;
 
-        movie.setName(name);
-        movie.setPrice(price);
-        movie.setStock(stock);
-        movie.setGenre(genre);
-        movie.setRelease(release);
-        movie.setRuntime(runtime);
-        movie.setCreator(creator);
+            if (!Books.contains(book)) {
+                Books.add(book);
+            }
+
+            if (!Products.contains(book)) {
+                Products.add(book);
+            }
+
+        } else if (product instanceof Movie) {
+
+            Movie movie = (Movie) product;
+
+            if (!Movies.contains(movie)) {
+                Movies.add(movie);
+            }
+
+            if (!Products.contains(movie)) {
+                Products.add(movie);
+            }
+        }
     }
 
 
@@ -128,24 +125,21 @@ public class Bookstore extends Storefront {
     // DELETE
     // =====================================================
 
-    public void deleteBook(Book book) {
+    @Override
+    public void deleteProduct(Product product) {
 
-        if (Books.remove(book)) {
+        if (Products.remove(product)) {
 
-            Products.remove(book);
+            if (product instanceof Book) {
 
-            BookStock--;
-        }
-    }
+                Books.remove((Book) product);
+                BookStock--;
 
+            } else if (product instanceof Movie) {
 
-    public void deleteMovie(Movie movie) {
-
-        if (Movies.remove(movie)) {
-
-            Products.remove(movie);
-
-            MovieStock--;
+                Movies.remove((Movie) product);
+                MovieStock--;
+            }
         }
     }
 
@@ -215,7 +209,6 @@ public class Bookstore extends Storefront {
                     getEarnings()
                     + product.getPrice()
                 );
-
             }
         }
     }

@@ -40,6 +40,15 @@ public abstract class Storefront {
     }
 
 
+    // ABSTRACT CRUD METHODS
+
+    public abstract void addProduct(Product product);
+
+    public abstract void updateProduct(Product product);
+
+    public abstract void deleteProduct(Product product);
+
+
     // ABSTRACT METHODS
 
     public abstract void displayStorefront();

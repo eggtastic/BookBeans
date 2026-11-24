@@ -23,9 +23,11 @@ import product.Product;
 import storefront.Bookstore;
 import storefront.Cafe;
 
+
 public class Controller {
 
     @FXML private TableView<Product> productTable;
+
     @FXML private TableColumn<Product, String> nameColumn;
     @FXML private TableColumn<Product, Double> priceColumn;
     @FXML private TableColumn<Product, Integer> stockColumn;
@@ -61,9 +63,11 @@ public class Controller {
     private String currentStore = "Bookstore";
 
     // Stores one permanent dialogue for each product
-    private Map<Product, String> productDialogue = new HashMap<>();
+    private Map<Product, String> productDialogue =
+        new HashMap<>();
 
     private Random random = new Random();
+
 
     @FXML
     public void initialize() {
@@ -92,6 +96,7 @@ public class Controller {
             event -> updateProductFields()
         );
     }
+
 
     // =========================================================
     // DEFAULT PRODUCTS
@@ -131,9 +136,9 @@ public class Controller {
             "George Orwell"
         );
 
-        bookstore.addBook(percyJackson);
-        bookstore.addBook(metamorphosis);
-        bookstore.addBook(nineteenEightyFour);
+        bookstore.addProduct(percyJackson);
+        bookstore.addProduct(metamorphosis);
+        bookstore.addProduct(nineteenEightyFour);
 
         assignDialogue(percyJackson);
         assignDialogue(metamorphosis);
@@ -162,8 +167,8 @@ public class Controller {
             "Markiplier"
         );
 
-        bookstore.addMovie(projectHailMary);
-        bookstore.addMovie(ironLung);
+        bookstore.addProduct(projectHailMary);
+        bookstore.addProduct(ironLung);
 
         assignDialogue(projectHailMary);
         assignDialogue(ironLung);
@@ -185,12 +190,13 @@ public class Controller {
                 5
             );
 
-        cafe.addConsumable(strawberrySundae);
-        cafe.addConsumable(carbonara);
+        cafe.addProduct(strawberrySundae);
+        cafe.addProduct(carbonara);
 
         assignDialogue(strawberrySundae);
         assignDialogue(carbonara);
     }
+
 
     // =========================================================
     // PRODUCT DIALOGUE
@@ -230,6 +236,7 @@ public class Controller {
         productDialogue.put(product, lines[chosenLine]);
     }
 
+
     private String getProductDialogue(Product product) {
 
         if (!productDialogue.containsKey(product)) {
@@ -239,6 +246,7 @@ public class Controller {
         return productDialogue.get(product);
     }
 
+
     private void showProductDialogue(Product product) {
 
         String librarianLine =
@@ -246,6 +254,7 @@ public class Controller {
 
         String productInformation =
             product.displayProduct();
+
 
         // Change Azira's expression depending on the dialogue
 
@@ -299,6 +308,7 @@ public class Controller {
         );
     }
 
+
     // =========================================================
     // LIBRARIAN IMAGE
     // =========================================================
@@ -308,6 +318,7 @@ public class Controller {
         // Default expression
         setLibrarianExpression("happy");
     }
+
 
     private void setLibrarianExpression(String expression) {
 
@@ -320,6 +331,7 @@ public class Controller {
 
         librarianImage.setImage(image);
     }
+
 
     // =========================================================
     // ACTION DIALOGUES
@@ -341,6 +353,7 @@ public class Controller {
         }
     }
 
+
     private String getDeleteDialogue(Product product) {
 
         if (product instanceof Book) {
@@ -357,6 +370,7 @@ public class Controller {
         }
     }
 
+
     private String getUpdateDialogue(Product product) {
 
         if (product instanceof Book) {
@@ -372,6 +386,7 @@ public class Controller {
             return "Oh, is that right? I swear I got the ingredients right...!";
         }
     }
+
 
     // =========================================================
     // TABLE SETUP
@@ -472,6 +487,7 @@ public class Controller {
             }
         );
 
+
         productTable.getSelectionModel()
             .selectedItemProperty()
             .addListener(
@@ -491,6 +507,7 @@ public class Controller {
             );
     }
 
+
     // =========================================================
     // STORE SWITCHING
     // =========================================================
@@ -500,6 +517,7 @@ public class Controller {
 
         showBookstore();
     }
+
 
     private void showBookstore() {
 
@@ -539,11 +557,13 @@ public class Controller {
         );
     }
 
+
     @FXML
     private void handleCafe() {
 
         showCafe();
     }
+
 
     private void showCafe() {
 
@@ -584,6 +604,7 @@ public class Controller {
         );
     }
 
+
     // =========================================================
     // PRODUCT FIELD CONTROL
     // =========================================================
@@ -619,6 +640,7 @@ public class Controller {
         }
     }
 
+
     // =========================================================
     // INPUT VALIDATION
     // =========================================================
@@ -637,6 +659,7 @@ public class Controller {
         }
     }
 
+
     private boolean isWholeNumber(String value) {
 
         try {
@@ -651,6 +674,7 @@ public class Controller {
         }
     }
 
+
     private boolean validateBasicFields() {
 
         if (nameField.getText().trim().isEmpty()) {
@@ -664,6 +688,7 @@ public class Controller {
             return false;
         }
 
+
         if (priceField.getText().trim().isEmpty()) {
 
             setLibrarianExpression("displeased");
@@ -674,6 +699,7 @@ public class Controller {
 
             return false;
         }
+
 
         if (!isNumber(
             priceField.getText().trim()
@@ -688,6 +714,7 @@ public class Controller {
             return false;
         }
 
+
         if (stockField.getText().trim().isEmpty()) {
 
             setLibrarianExpression("displeased");
@@ -698,6 +725,7 @@ public class Controller {
 
             return false;
         }
+
 
         if (!isWholeNumber(
             stockField.getText().trim()
@@ -712,6 +740,7 @@ public class Controller {
             return false;
         }
 
+
         if (Double.parseDouble(
             priceField.getText().trim()
         ) < 0) {
@@ -724,6 +753,7 @@ public class Controller {
 
             return false;
         }
+
 
         if (Integer.parseInt(
             stockField.getText().trim()
@@ -741,6 +771,7 @@ public class Controller {
         return true;
     }
 
+
     private boolean validateMediaFields() {
 
         if (genreField.getText().trim().isEmpty()) {
@@ -754,6 +785,7 @@ public class Controller {
             return false;
         }
 
+
         if (releaseField.getText().trim().isEmpty()) {
 
             setLibrarianExpression("displeased");
@@ -764,6 +796,7 @@ public class Controller {
 
             return false;
         }
+
 
         if (!isWholeNumber(
             releaseField.getText().trim()
@@ -778,6 +811,7 @@ public class Controller {
             return false;
         }
 
+
         if (creatorField.getText().trim().isEmpty()) {
 
             setLibrarianExpression("displeased");
@@ -791,6 +825,7 @@ public class Controller {
 
         return true;
     }
+
 
     private boolean validateDetailField(String type) {
 
@@ -807,6 +842,7 @@ public class Controller {
                 return false;
             }
 
+
             if (!isWholeNumber(
                 pageCountField.getText().trim()
             )) {
@@ -819,6 +855,7 @@ public class Controller {
 
                 return false;
             }
+
 
             if (Integer.parseInt(
                 pageCountField.getText().trim()
@@ -833,6 +870,7 @@ public class Controller {
                 return false;
             }
 
+
         } else if (type.equals("Movie")) {
 
             if (runtimeField.getText().trim().isEmpty()) {
@@ -846,6 +884,7 @@ public class Controller {
                 return false;
             }
 
+
             if (!isWholeNumber(
                 runtimeField.getText().trim()
             )) {
@@ -858,6 +897,7 @@ public class Controller {
 
                 return false;
             }
+
 
             if (Integer.parseInt(
                 runtimeField.getText().trim()
@@ -875,6 +915,7 @@ public class Controller {
 
         return true;
     }
+
 
     // =========================================================
     // ADD PRODUCT
@@ -900,6 +941,7 @@ public class Controller {
                 stockField.getText().trim()
             );
 
+
         if (currentStore.equals("Bookstore")) {
 
             if (!validateMediaFields()) {
@@ -909,6 +951,7 @@ public class Controller {
             if (!validateDetailField(type)) {
                 return;
             }
+
 
             String name =
                 nameField.getText().trim();
@@ -924,12 +967,14 @@ public class Controller {
             String creator =
                 creatorField.getText().trim();
 
+
             if (type.equals("Book")) {
 
                 int pageCount =
                     Integer.parseInt(
                         pageCountField.getText().trim()
                     );
+
 
                 Book book = new Book(
                     name,
@@ -941,9 +986,11 @@ public class Controller {
                     creator
                 );
 
-                bookstore.addBook(book);
+
+                bookstore.addProduct(book);
 
                 assignDialogue(book);
+
 
             } else if (type.equals("Movie")) {
 
@@ -951,6 +998,7 @@ public class Controller {
                     Integer.parseInt(
                         runtimeField.getText().trim()
                     );
+
 
                 Movie movie = new Movie(
                     name,
@@ -962,12 +1010,15 @@ public class Controller {
                     creator
                 );
 
-                bookstore.addMovie(movie);
+
+                bookstore.addProduct(movie);
 
                 assignDialogue(movie);
             }
 
+
             showBookstore();
+
 
         } else {
 
@@ -978,9 +1029,8 @@ public class Controller {
                     stock
                 );
 
-            cafe.addConsumable(
-                consumable
-            );
+
+            cafe.addProduct(consumable);
 
             assignDialogue(
                 consumable
@@ -989,8 +1039,10 @@ public class Controller {
             showCafe();
         }
 
+
         clearFields();
     }
+
 
     // =========================================================
     // UPDATE PRODUCT
@@ -1010,9 +1062,11 @@ public class Controller {
             return;
         }
 
+
         if (!validateBasicFields()) {
             return;
         }
+
 
         if (
             selectedProduct instanceof Book
@@ -1022,6 +1076,7 @@ public class Controller {
             if (!validateMediaFields()) {
                 return;
             }
+
 
             if (selectedProduct instanceof Book) {
 
@@ -1037,6 +1092,7 @@ public class Controller {
             }
         }
 
+
         double price =
             Double.parseDouble(
                 priceField.getText().trim()
@@ -1047,16 +1103,20 @@ public class Controller {
                 stockField.getText().trim()
             );
 
+
         String updateDialogue =
             getUpdateDialogue(selectedProduct);
 
+
         Product updatedProduct =
             selectedProduct;
+
 
         if (selectedProduct instanceof Book) {
 
             Book book =
                 (Book) selectedProduct;
+
 
             book.setName(
                 nameField.getText().trim()
@@ -1085,10 +1145,12 @@ public class Controller {
                 )
             );
 
+
         } else if (selectedProduct instanceof Movie) {
 
             Movie movie =
                 (Movie) selectedProduct;
+
 
             movie.setName(
                 nameField.getText().trim()
@@ -1117,12 +1179,14 @@ public class Controller {
                 )
             );
 
+
         } else if (
             selectedProduct instanceof Consumables
         ) {
 
             Consumables consumable =
                 (Consumables) selectedProduct;
+
 
             consumable.setName(
                 nameField.getText().trim()
@@ -1132,18 +1196,31 @@ public class Controller {
             consumable.setStock(stock);
         }
 
+
+        // USE THE GENERIC UPDATE METHOD
+
         if (currentStore.equals("Bookstore")) {
+
+            bookstore.updateProduct(
+                updatedProduct
+            );
 
             showBookstore();
 
         } else {
 
+            cafe.updateProduct(
+                updatedProduct
+            );
+
             showCafe();
         }
+
 
         selectedProduct = null;
 
         clearFields();
+
 
         if (updatedProduct instanceof Book) {
 
@@ -1154,10 +1231,12 @@ public class Controller {
             setLibrarianExpression("displeased");
         }
 
+
         dialogueLabel.setText(
             updateDialogue
         );
     }
+
 
     // =========================================================
     // DELETE PRODUCT
@@ -1177,37 +1256,33 @@ public class Controller {
             return;
         }
 
+
         String deleteDialogue =
             getDeleteDialogue(
                 selectedProduct
             );
 
-        if (selectedProduct instanceof Book) {
 
-            bookstore.deleteBook(
-                (Book) selectedProduct
+        // USE THE GENERIC DELETE METHOD
+
+        if (currentStore.equals("Bookstore")) {
+
+            bookstore.deleteProduct(
+                selectedProduct
             );
 
-        } else if (
-            selectedProduct instanceof Movie
-        ) {
+        } else {
 
-            bookstore.deleteMovie(
-                (Movie) selectedProduct
-            );
-
-        } else if (
-            selectedProduct instanceof Consumables
-        ) {
-
-            cafe.deleteConsumable(
-                (Consumables) selectedProduct
+            cafe.deleteProduct(
+                selectedProduct
             );
         }
+
 
         productDialogue.remove(
             selectedProduct
         );
+
 
         if (currentStore.equals("Bookstore")) {
 
@@ -1217,6 +1292,7 @@ public class Controller {
 
             showCafe();
         }
+
 
         selectedProduct = null;
 
@@ -1228,6 +1304,7 @@ public class Controller {
             deleteDialogue
         );
     }
+
 
     // =========================================================
     // BUY PRODUCT
@@ -1247,6 +1324,7 @@ public class Controller {
             return;
         }
 
+
         if (selectedProduct.getStock() <= 0) {
 
             setLibrarianExpression("displeased");
@@ -1258,13 +1336,16 @@ public class Controller {
             return;
         }
 
+
         String buyDialogue =
             getBuyDialogue(
                 selectedProduct
             );
 
+
         Product boughtProduct =
             selectedProduct;
+
 
         if (currentStore.equals("Bookstore")) {
 
@@ -1283,6 +1364,7 @@ public class Controller {
             showCafe();
         }
 
+
         updateEarnings();
 
         setLibrarianExpression("happier");
@@ -1291,9 +1373,11 @@ public class Controller {
             buyDialogue
         );
 
+
         selectedProduct =
             boughtProduct;
     }
+
 
     // =========================================================
     // STOCK BUTTONS
@@ -1313,6 +1397,7 @@ public class Controller {
         );
     }
 
+
     @FXML
     private void handleMovieStock() {
 
@@ -1327,6 +1412,7 @@ public class Controller {
         );
     }
 
+
     @FXML
     private void handleConsumablesStock() {
 
@@ -1340,6 +1426,7 @@ public class Controller {
             + " items in the cafe."
         );
     }
+
 
     // =========================================================
     // FIELD METHODS
@@ -1362,6 +1449,7 @@ public class Controller {
                 product.getStock()
             )
         );
+
 
         if (product instanceof Media) {
 
@@ -1389,6 +1477,7 @@ public class Controller {
             creatorField.clear();
         }
 
+
         if (product instanceof Book) {
 
             Book book =
@@ -1401,6 +1490,7 @@ public class Controller {
             );
 
             runtimeField.clear();
+
 
         } else if (product instanceof Movie) {
 
@@ -1415,12 +1505,14 @@ public class Controller {
 
             pageCountField.clear();
 
+
         } else {
 
             pageCountField.clear();
             runtimeField.clear();
         }
     }
+
 
     private void clearFields() {
 
@@ -1436,6 +1528,7 @@ public class Controller {
         runtimeField.clear();
     }
 
+
     private void updateEarnings() {
 
         double bookstoreEarnings =
@@ -1447,6 +1540,7 @@ public class Controller {
         double totalEarnings =
             bookstoreEarnings
             + cafeEarnings;
+
 
         earningsLabel.setText(
             String.format(

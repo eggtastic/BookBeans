@@ -11,16 +11,15 @@ public class Cafe extends Storefront {
     // Number of different menu products
     private int MenuItems;
 
-    private ArrayList<Consumables> Menu = new ArrayList<>();
+    private ArrayList<Consumables> Menu =
+        new ArrayList<>();
 
 
-    public int getMenuItems() {
-        return MenuItems;
-    }
-
-
-    public Cafe(String name, double earnings,
-         int MenuItems) {
+    public Cafe(
+        String name,
+        double earnings,
+        int MenuItems
+    ) {
 
         super(name, earnings);
 
@@ -28,37 +27,73 @@ public class Cafe extends Storefront {
     }
 
 
-    // CREATE
-
-    public void addConsumable(Consumables consumable) {
-        Menu.add(consumable);
-        MenuItems++;
-    }
-
-    // UPDATE
-
-    public void updateConsumable(Consumables consumable,
-                                String name, double price, int stock) {
-
-        consumable.setName(name);
-        consumable.setPrice(price);
-        consumable.setStock(stock);
-    }
-    // DELETE
-
-    public void deleteConsumable(Consumables consumable) {
-        if (Menu.remove(consumable)) {
-            MenuItems--;
-        }
-    }
-
-
+    // =====================================================
     // READ
+    // =====================================================
+
+    public int getMenuItems() {
+        return MenuItems;
+    }
+
 
     public ArrayList<Consumables> getMenu() {
         return Menu;
     }
 
+
+    // =====================================================
+    // CREATE
+    // =====================================================
+
+    @Override
+    public void addProduct(Product product) {
+
+        if (product instanceof Consumables) {
+
+            Menu.add((Consumables) product);
+            MenuItems++;
+        }
+    }
+
+
+    // =====================================================
+    // UPDATE
+    // =====================================================
+
+    @Override
+    public void updateProduct(Product product) {
+
+        if (product instanceof Consumables) {
+
+            Consumables consumable =
+                (Consumables) product;
+
+            if (!Menu.contains(consumable)) {
+                Menu.add(consumable);
+            }
+        }
+    }
+
+
+    // =====================================================
+    // DELETE
+    // =====================================================
+
+    @Override
+    public void deleteProduct(Product product) {
+
+        if (product instanceof Consumables) {
+
+            if (Menu.remove((Consumables) product)) {
+                MenuItems--;
+            }
+        }
+    }
+
+
+    // =====================================================
+    // DISPLAY STOREFRONT
+    // =====================================================
 
     @Override
     public void displayStorefront() {
@@ -69,7 +104,9 @@ public class Cafe extends Storefront {
     }
 
 
+    // =====================================================
     // BUY
+    // =====================================================
 
     @Override
     public void BuyProduct(Product product) {
@@ -80,26 +117,11 @@ public class Cafe extends Storefront {
 
                 product.reduceStock();
 
-                setEarnings(getEarnings() + product.getPrice());
-
-                System.out.println(
-                    "Thank you for your purchase of " +
-                    product.getName()
-                );
-
-            } else {
-
-                System.out.println(
-                    "Sorry, " + product.getName() +
-                    " is out of stock."
+                setEarnings(
+                    getEarnings()
+                    + product.getPrice()
                 );
             }
-
-        } else {
-
-            System.out.println(
-                "This product is not sold in the cafe."
-            );
         }
     }
 }
