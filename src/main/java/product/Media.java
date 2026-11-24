@@ -1,6 +1,6 @@
 package product;
 
-public class Media extends Product {
+public abstract class Media extends Product {
 
     private String genre;
     private int release;
