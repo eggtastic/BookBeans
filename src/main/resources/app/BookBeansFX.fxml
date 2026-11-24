@@ -27,7 +27,6 @@
             prefWidth="1000.0"
             prefHeight="600.0">
 
-
             <!-- ================================================= -->
             <!-- LEFT SIDE -->
             <!-- ================================================= -->
@@ -50,13 +49,11 @@
                 <HBox spacing="10.0">
 
                     <Button
-                        fx:id="bookstoreButton"
                         text="Bookstore"
                         onAction="#handleBookstore"
                         prefWidth="120.0"/>
 
                     <Button
-                        fx:id="cafeButton"
                         text="Cafe"
                         onAction="#handleCafe"
                         prefWidth="120.0"/>
@@ -228,7 +225,7 @@
                 </padding>
 
 
-                <!-- LIBRARIAN IMAGE -->
+                <!-- AZIRA IMAGE -->
 
                 <StackPane
                     prefHeight="180.0">
@@ -237,7 +234,8 @@
                         fx:id="librarianImage"
                         fitWidth="180.0"
                         fitHeight="180.0"
-                        preserveRatio="true"/>
+                        preserveRatio="true"
+                        smooth="true"/>
 
                 </StackPane>
 
@@ -314,13 +312,11 @@
                         onAction="#handleBookStock"
                         prefWidth="105.0"/>
 
-
                     <Button
                         fx:id="movieStockButton"
                         text="Movie Stock?"
                         onAction="#handleMovieStock"
                         prefWidth="105.0"/>
-
 
                     <Button
                         fx:id="consumablesStockButton"
