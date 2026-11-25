@@ -52,15 +52,4 @@ public abstract class Media extends Product {
     public void setCreator(String creator) {
         this.creator = creator;
     }
-
-
-    @Override
-    public String displayProduct() {
-
-        return getName()
-            + ", a " + genre
-            + " released in " + release
-            + ". Price: PHP " + String.format("%.2f", getPrice())
-            + ", Stock: " + getStock();
-    }
 }
