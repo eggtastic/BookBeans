@@ -682,7 +682,7 @@ public class Controller {
             setLibrarianExpression("displeased");
 
             dialogueLabel.setText(
-                "Please enter a product name."
+                "You're trading with me? Please enter a product name!"
             );
 
             return false;
@@ -694,7 +694,7 @@ public class Controller {
             setLibrarianExpression("displeased");
 
             dialogueLabel.setText(
-                "Please enter a price."
+                "Why, please do name your price."
             );
 
             return false;
