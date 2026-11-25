@@ -1,6 +1,6 @@
 # BookBeans
 
-A JavaFX bookstore and cafe management system demonstrating core OOP concepts.
+A JavaFX bookstore and cafe management system.
 
 ## UML Diagram
 
